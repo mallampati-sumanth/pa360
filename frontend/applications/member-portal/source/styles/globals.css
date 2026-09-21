@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 20, 35, 52;
+  --background-start-rgb: 242, 247, 249;
+  --background-end-rgb: 248, 251, 252;
+  --portal-ink: #142334;
+  --portal-muted: #617184;
+  --portal-line: #dce6eb;
+  --portal-cyan: #12a8c7;
+  --portal-teal: #087f8c;
+  --portal-navy: #102b3f;
+}
+
+* { box-sizing: border-box; }
+
+html { background: #f2f7f9; }
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(135deg, rgb(var(--background-start-rgb)), rgb(var(--background-end-rgb)));
+  font-family: var(--font-portal), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea { font: inherit; }
+
+::selection { background: #b9edf4; color: var(--portal-ink); }
+
+@layer components {
+  .portal-card { border: 1px solid var(--portal-line); border-radius: 14px; background: rgba(255, 255, 255, 0.92); box-shadow: 0 10px 28px rgba(25, 55, 72, 0.06); }
+  .portal-kicker { color: var(--portal-teal); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+}

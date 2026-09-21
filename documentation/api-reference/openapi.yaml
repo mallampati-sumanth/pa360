@@ -1,0 +1,270 @@
+openapi: 3.0.3
+info:
+  title: PA360 API
+  version: 1.0.0
+  description: API documentation for the PA360 Prior Authorization Platform.
+servers:
+  - url: http://localhost:8000/api/v1
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: []
+paths:
+  /auth/login/:
+    post:
+      summary: Login
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    type: string
+                  refresh:
+                    type: string
+  /auth/logout/:
+    post:
+      summary: Logout
+      tags: [Auth]
+      responses:
+        '200':
+          description: Logged out successfully
+  /auth/token/refresh/:
+    post:
+      summary: Refresh Token
+      tags: [Auth]
+      responses:
+        '200':
+          description: Token refreshed
+  /auth/profile/:
+    get:
+      summary: Get user profile
+      tags: [Auth]
+      responses:
+        '200':
+          description: Profile details
+  /patients/:
+    get:
+      summary: List patients
+      tags: [Patients]
+      responses:
+        '200':
+          description: A list of patients
+    post:
+      summary: Create patient
+      tags: [Patients]
+      responses:
+        '201':
+          description: Patient created
+  /patients/{id}/link_provisional/:
+    post:
+      summary: Link provisional patient (Newborn)
+      tags: [Patients]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Linked
+  /providers/:
+    get:
+      summary: List providers
+      tags: [Providers]
+      responses:
+        '200':
+          description: List of providers
+  /payers/:
+    get:
+      summary: List payers
+      tags: [Payers]
+      responses:
+        '200':
+          description: List of payers
+  /plans/:
+    get:
+      summary: List plans
+      tags: [Plans]
+      responses:
+        '200':
+          description: List of plans
+  /services/:
+    get:
+      summary: List services
+      tags: [Services]
+      responses:
+        '200':
+          description: List of services
+  /authorizations/:
+    get:
+      summary: List authorization requests
+      tags: [Authorizations]
+      responses:
+        '200':
+          description: List of requests
+    post:
+      summary: Create authorization request
+      tags: [Authorizations]
+      responses:
+        '201':
+          description: Request created
+  /authorizations/{id}/submit/:
+    post:
+      summary: Submit for review
+      tags: [Authorizations]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Submitted
+  /authorizations/{id}/review/:
+    post:
+      summary: Submit specialist review decision
+      tags: [Authorizations]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Decision logged
+  /authorizations/{id}/check_pa_requirement/:
+    post:
+      summary: Check PA rules deterministically
+      tags: [Authorizations]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Requirement check results
+  /authorizations/{id}/check_completeness/:
+    post:
+      summary: AI-assisted missing info check
+      tags: [Authorizations]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Completeness report
+  /authorizations/{id}/appeal/:
+    post:
+      summary: File an appeal
+      tags: [Authorizations]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Appeal logged
+  /authorizations/exception_queue/:
+    get:
+      summary: Get exceptions (edge cases)
+      tags: [Authorizations]
+      responses:
+        '200':
+          description: List of exceptions
+  /authorizations/manager_summary/:
+    get:
+      summary: Get manager KPI summary
+      tags: [Authorizations]
+      responses:
+        '200':
+          description: KPI summary
+  /authorizations/{id}/retro_auth/:
+    post:
+      summary: Mark as Retro/Emergency
+      tags: [Authorizations]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Marked
+  /authorizations/{id}/check_clinical_change/:
+    post:
+      summary: Trigger clinical change workflow
+      tags: [Authorizations]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Updated
+  /documents/:
+    get:
+      summary: List documents
+      tags: [Documents]
+      responses:
+        '200':
+          description: List of documents
+    post:
+      summary: Upload document
+      tags: [Documents]
+      responses:
+        '201':
+          description: Document uploaded
+  /payer_responses/:
+    get:
+      summary: List payer responses
+      tags: [Payer Responses]
+      responses:
+        '200':
+          description: List of responses
+  /audit_logs/:
+    get:
+      summary: List audit logs (Manager only)
+      tags: [Audit Logs]
+      responses:
+        '200':
+          description: List of audit logs
+  /health/:
+    get:
+      summary: Health check
+      tags: [Health]
+      responses:
+        '200':
+          description: OK

@@ -1,0 +1,32 @@
+'use client'
+
+import Link from 'next/link'
+import { ArrowRight, CheckCircle2, Clock3, FileText, Plus, Search, Sparkles, TriangleAlert } from 'lucide-react'
+import { useAuthorizationRequests } from '@/features/authorization-workspace/hooks'
+import { getStatusColor } from '@/shared/utils'
+
+type RequestRow = { authorization_id: string; patient_name: string; payer_name: string; service_name: string; status: string }
+
+export default function SpecialistDashboard() {
+  const { data, isLoading } = useAuthorizationRequests({ ordering: '-request_date' })
+  const requests: RequestRow[] = data?.results ?? data ?? []
+  const approved = requests.filter((item) => item.status === 'Approved').length
+  const pending = requests.filter((item) => ['Pending', 'Submitted', 'Ready for Submission'].includes(item.status)).length
+  const denied = requests.filter((item) => item.status === 'Denied').length
+  const actionRequired = requests.filter((item) => item.status === 'Additional Info Requested').length
+
+  return <div className="space-y-6">
+    <section className="flex flex-col gap-4 rounded-2xl bg-gradient-to-br from-[#12384c] via-[#176477] to-[#1597a1] px-7 py-7 text-white shadow-[0_18px_40px_rgba(12,86,103,0.18)] md:flex-row md:items-center md:justify-between">
+      <div><p className="text-sm font-medium text-cyan-100">Authorization Specialist workspace</p><h1 className="mt-1 text-3xl font-semibold tracking-tight">Welcome back, Jessica.</h1><p className="mt-2 text-sm text-blue-100">Turn a patient question into a reviewed, submission-ready authorization.</p></div>
+      <Link href="/specialist/new-authorization" className="inline-flex items-center justify-center gap-2 rounded-md bg-white px-4 py-2.5 text-sm font-semibold text-[#123e6d] hover:bg-blue-50"><Plus className="h-4 w-4" /> New authorization</Link>
+    </section>
+    <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"><Metric label="Total requests" value={requests.length} note="From local demo data" icon={FileText} tone="blue" /><Metric label="Approved" value={approved} note="Ready for downstream care" icon={CheckCircle2} tone="green" /><Metric label="Pending review" value={pending} note="Needs a workflow action" icon={Clock3} tone="amber" /><Metric label="Action required" value={actionRequired + denied} note={`${denied} denied, ${actionRequired} missing info`} icon={TriangleAlert} tone="rose" /></section>
+    <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+      <section className="rounded-xl border border-slate-200 bg-white shadow-sm"><div className="flex items-center justify-between border-b border-slate-200 px-6 py-5"><div><h2 className="text-lg font-semibold text-slate-900">Recent authorization requests</h2><p className="mt-1 text-sm text-slate-500">The cases closest to your next action.</p></div><Link href="/specialist/authorizations" className="inline-flex items-center gap-1 text-sm font-semibold text-[#1769aa]">View all <ArrowRight className="h-4 w-4" /></Link></div><div className="overflow-x-auto"><table className="min-w-full text-left text-sm"><thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500"><tr><th className="px-6 py-3">Authorization</th><th className="px-4 py-3">Patient</th><th className="px-4 py-3">Service</th><th className="px-4 py-3">Payer</th><th className="px-4 py-3">Status</th></tr></thead><tbody className="divide-y divide-slate-100">{isLoading && <tr><td colSpan={5} className="px-6 py-8 text-center text-slate-500">Loading live requests...</td></tr>}{!isLoading && requests.slice(0, 7).map((item) => <tr key={item.authorization_id} className="hover:bg-blue-50/40"><td className="px-6 py-4 font-medium text-[#1769aa]">{item.authorization_id.slice(0, 12)}</td><td className="px-4 py-4 text-slate-800">{item.patient_name}</td><td className="px-4 py-4 text-slate-600">{item.service_name}</td><td className="px-4 py-4 text-slate-600">{item.payer_name}</td><td className="px-4 py-4"><span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${getStatusColor(item.status as never)}`}>{item.status}</span></td></tr>)}{!isLoading && requests.length === 0 && <tr><td colSpan={5} className="px-6 py-10 text-center text-slate-500">No requests found.</td></tr>}</tbody></table></div></section>
+      <aside className="space-y-6"><section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"><h2 className="font-semibold text-slate-900">Quick actions</h2><div className="mt-4 space-y-2"><QuickAction href="/specialist/new-authorization" icon={Plus} label="Start new authorization" /><QuickAction href="/specialist/new-authorization" icon={Search} label="Check PA requirement" /><QuickAction href="/specialist/authorizations" icon={FileText} label="Review request queue" /><QuickAction href="/specialist/exceptions" icon={TriangleAlert} label="Open exception queue" /></div></section><section className="rounded-xl border border-blue-100 bg-blue-50 p-5"><div className="flex items-center gap-2 font-semibold text-[#1769aa]"><Sparkles className="h-4 w-4" /> AI-assisted insights</div><p className="mt-3 text-sm leading-6 text-slate-600">Document analysis flags missing evidence for human review. No AI result submits automatically.</p></section></aside>
+    </div>
+  </div>
+}
+
+function Metric({ label, value, note, icon: Icon, tone }: { label: string; value: number; note: string; icon: React.ElementType; tone: 'blue' | 'green' | 'amber' | 'rose' }) { const colors = { blue: 'bg-cyan-50 text-cyan-700', green: 'bg-emerald-50 text-emerald-700', amber: 'bg-amber-50 text-amber-700', rose: 'bg-rose-50 text-rose-700' }; return <div className="rounded-2xl border border-[#dce6eb] bg-white/95 p-5 shadow-[0_8px_24px_rgba(25,55,72,0.05)]"><div className="flex items-center justify-between"><p className="text-sm font-medium text-slate-500">{label}</p><span className={`rounded-xl p-2.5 ${colors[tone]}`}><Icon className="h-4 w-4" /></span></div><p className="mt-4 text-3xl font-semibold tracking-tight text-[#142334]">{value}</p><p className="mt-1 text-xs text-slate-500">{note}</p></div> }
+function QuickAction({ href, icon: Icon, label }: { href: string; icon: React.ElementType; label: string }) { return <Link href={href} className="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-3 text-sm font-medium text-slate-700 hover:border-blue-200 hover:bg-blue-50"><span className="flex items-center gap-3"><Icon className="h-4 w-4 text-[#1769aa]" />{label}</span><ArrowRight className="h-4 w-4 text-slate-400" /></Link> }

@@ -1,0 +1,22 @@
+CREATE OR REPLACE VIEW PA360_DEV.CURATED.VW_BILLING_RISK AS
+SELECT 
+    ar.AUTHORIZATION_ID,
+    ar.PATIENT_ID,
+    ar.STATUS,
+    ar.COVERAGE_VERIFIED,
+    ar.SERVICE_CODE,
+    p.NAME AS PATIENT_NAME,
+    s.SERVICE_NAME,
+    py.PAYER_NAME,
+    CASE 
+        WHEN ar.STATUS = 'Denied' THEN 'High Risk - Claim will be denied'
+        WHEN ar.STATUS IN ('Draft', 'Pending', 'Submitted', 'Additional Info Requested') THEN 'Medium Risk - PA not yet approved'
+        WHEN ar.COVERAGE_VERIFIED = FALSE THEN 'Medium Risk - Coverage not verified'
+        WHEN ar.EDGE_CASE_TYPE = 'APPROVED_NOT_COVERED' THEN 'High Risk - Approved but not covered'
+        ELSE 'Low Risk'
+    END AS BILLING_RISK_LEVEL,
+    ar.NOTES AS PA_NOTES
+FROM PA360_DEV.CURATED.AUTHORIZATION_REQUESTS ar
+JOIN PA360_DEV.CURATED.PATIENTS p ON ar.PATIENT_ID = p.PATIENT_ID
+JOIN PA360_DEV.CURATED.SERVICES s ON ar.SERVICE_CODE = s.SERVICE_CODE
+JOIN PA360_DEV.CURATED.PAYERS py ON ar.PAYER_ID = py.PAYER_ID;

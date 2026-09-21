@@ -1,0 +1,51 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'backend/**'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'backend/**'
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('backend/application-source/requirements.txt') }}
+      - name: Install dependencies
+        run: |
+          cd backend/application-source
+          pip install -r requirements.txt
+      - name: Lint with ruff
+        run: |
+          cd backend/application-source
+          ruff check .
+      - name: Run tests
+        env:
+          DJANGO_SETTINGS_MODULE: project_config.settings.testing
+          DJANGO_SECRET_KEY: test-secret-key-for-ci
+          REDIS_URL: redis://localhost:6379/0
+        run: |
+          cd backend/application-source
+          pytest --cov=. --cov-report=xml -v
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          file: backend/application-source/coverage.xml

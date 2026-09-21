@@ -1,0 +1,130 @@
+[
+  {
+    "model": "payers.payer",
+    "pk": "PAY001",
+    "fields": {
+      "payer_name": "BlueShield",
+      "is_active": true
+    }
+  },
+  {
+    "model": "payers.payer",
+    "pk": "PAY002",
+    "fields": {
+      "payer_name": "Aetna",
+      "is_active": true
+    }
+  },
+  {
+    "model": "payers.payer",
+    "pk": "PAY003",
+    "fields": {
+      "payer_name": "UnitedHealth",
+      "is_active": true
+    }
+  },
+  {
+    "model": "payers.payer",
+    "pk": "PAY004",
+    "fields": {
+      "payer_name": "Cigna",
+      "is_active": true
+    }
+  },
+  {
+    "model": "plans.plan",
+    "pk": "PLN_PAY001_Gold",
+    "fields": {
+      "plan_name": "BlueShield Gold Plan",
+      "payer_id": "PAY001"
+    }
+  },
+  {
+    "model": "plans.plan",
+    "pk": "PLN_PAY001_Silver",
+    "fields": {
+      "plan_name": "BlueShield Silver Plan",
+      "payer_id": "PAY001"
+    }
+  },
+  {
+    "model": "plans.plan",
+    "pk": "PLN_PAY001_Bronze",
+    "fields": {
+      "plan_name": "BlueShield Bronze Plan",
+      "payer_id": "PAY001"
+    }
+  },
+  {
+    "model": "plans.plan",
+    "pk": "PLN_PAY002_Gold",
+    "fields": {
+      "plan_name": "Aetna Gold Plan",
+      "payer_id": "PAY002"
+    }
+  },
+  {
+    "model": "plans.plan",
+    "pk": "PLN_PAY002_Silver",
+    "fields": {
+      "plan_name": "Aetna Silver Plan",
+      "payer_id": "PAY002"
+    }
+  },
+  {
+    "model": "plans.plan",
+    "pk": "PLN_PAY002_Bronze",
+    "fields": {
+      "plan_name": "Aetna Bronze Plan",
+      "payer_id": "PAY002"
+    }
+  },
+  {
+    "model": "plans.plan",
+    "pk": "PLN_PAY003_Gold",
+    "fields": {
+      "plan_name": "UnitedHealth Gold Plan",
+      "payer_id": "PAY003"
+    }
+  },
+  {
+    "model": "plans.plan",
+    "pk": "PLN_PAY003_Silver",
+    "fields": {
+      "plan_name": "UnitedHealth Silver Plan",
+      "payer_id": "PAY003"
+    }
+  },
+  {
+    "model": "plans.plan",
+    "pk": "PLN_PAY003_Bronze",
+    "fields": {
+      "plan_name": "UnitedHealth Bronze Plan",
+      "payer_id": "PAY003"
+    }
+  },
+  {
+    "model": "plans.plan",
+    "pk": "PLN_PAY004_Gold",
+    "fields": {
+      "plan_name": "Cigna Gold Plan",
+      "payer_id": "PAY004"
+    }
+  },
+  {
+    "model": "plans.plan",
+    "pk": "PLN_PAY004_Silver",
+    "fields": {
+      "plan_name": "Cigna Silver Plan",
+      "payer_id": "PAY004"
+    }
+  },
+  {
+    "model": "plans.plan",
+    "pk": "PLN_PAY004_Bronze",
+    "fields": {
+      "plan_name": "Cigna Bronze Plan",
+      "payer_id": "PAY004"
+    }
+  }
+]

@@ -1,0 +1,12 @@
+Plan_ID,Plan_Name,Payer_ID,PA_Rules_Summary
+PL  N001,,,   NULL
+PLN002 , Meridian Silver HMO,,N/A
+PLN003,  Atlas Essential PPO    ,PYR002   ,"PA required for surgery, imaging, and physical therapy beyond 6 visits "
+PLN004  , Atlas Premier PPO,PYR-MISSING-900,PA required for imaging and inpatient admissions only 
+PLN0 05,Summit Core HMO,,PA required for all outpatient procedures over $300
+PLN006,Summit Plus PPO,PYR003,
+NULL   , harborview standard hmo,   PYR004,PA required for specialist referrals and imaging
+ PL  AN?, ,PYR004X,   PA required for surgery and inpatient stays
+,Meridian Bronze HMO,PA  YER999,PA required for nearly all non-primary-care services
+PLN010,NULL , N/A,"  PA required for imaging, surgery, and DME  "
+PLN011,,PYR003,PA required for specialist referrals and physical therapy

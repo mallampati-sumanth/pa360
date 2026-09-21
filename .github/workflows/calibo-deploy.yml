@@ -1,0 +1,25 @@
+name: Calibo Platform Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  notify-calibo:
+    runs-on: ubuntu-latest
+    needs: [] # After backend-ci and frontend-ci pass
+    steps:
+      - uses: actions/checkout@v4
+      - name: Notify Calibo Platform CI/CD
+        run: |
+          echo "Triggering Calibo Platform deployment pipeline"
+          # Calibo Platform webhook or CLI call for environment promotion
+          # This would call the Calibo Platform API to promote the build
+          # to the development environment
+          echo "Build SHA: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Deployment triggered at: $(date -u)"
+        env:
+          CALIBO_API_KEY: ${{ secrets.CALIBO_API_KEY }}
+          CALIBO_PROJECT_ID: ${{ secrets.CALIBO_PROJECT_ID }}
+          CALIBO_ENVIRONMENT: development

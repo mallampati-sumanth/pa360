@@ -1,0 +1,29 @@
+Service_Code,Service_Name,Specialty,Authorization_Required
+,MRI Brain w/o   Contrast,  Radiology,NULL
+SVC002,MRI Lumbar Spine,RADIOLOGY, 
+SVC003,CT Chest w/ Contrast,Radiology   ,Maybe   
+SVC004,CT Abdomen/Pelvis,  Radiology  ,Y
+ SVC005,pet scan whole body ,,FALSE
+SVC006,Physical Therapy Session,Rehabilit ation,Y
+SVC007,Occupational Therapy Session,Rehabilitation,NO  
+SVC008,Total Knee Replacement,Orthopedic Surgery ,
+SVC009,Total Hip Replacement,Orthopedic Surgery,Y
+SV C010,Arthroscopic Knee Surgery,Orthopedic Surgery,NO 
+SVC011,Cardiac Stress Test, ,NO 
+SVC012,Echocardiogram,Cardiology,N
+SVC013,Cardiac Catheterization,Cardiology,Y  
+N/A,Colonoscopy (Screening),Gastroenterology,N
+SVC015,Colonoscopy (Diagnostic),Gastroenterology,NO 
+SVC016,Upper Endoscopy (EGD),Gastroenterology,
+SVC017,Durable Medical Equipment - CPAP,DME,Y
+SVC018  ,DURABLE  MEDICAL EQUIPMENT - WHEELCHAIR,, Y
+ SVC019,Specialty  Infusion Therapy,Oncology,Unknown
+???,  Chemotherapy  Administration,Oncology,Y
+  SVC021,,Neurology,Y
+SVC022,,Neurology,YES
+SVC023,Spinal Fusion Surgery,Orthopedic Surgery,Y 
+,N/A,Behavioral Health,NULL
+SVC025,Inpatient Behavioral Health Admission,  Behavioral Health,Yes
+SVC026  ,Bariatric Surgery Consultation,General Surgery,N 
+  SVC027,  Bariatric Surgery Procedure  ,,Y
+SVC028 ,,Dermatology,n
